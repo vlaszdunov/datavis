@@ -1,12 +1,23 @@
 import requests
 from urllib.parse import urlencode
-url='https://disk.yandex.ru/d/x9IYS-jGXcpyqw'
-resources = "https://cloud-api.yandex.net/v1/disk/public/resources?"
-requests_url = resources + urlencode(dict(public_key=url))
+import os
 
-response=requests.get(requests_url).json()['_embedded']['items'][7]
-print(response['file'])
-print('')
-downloaded=requests.get(response['file'])
-with open('Downloaded/students_info.xlsx', 'wb') as ff:
-    ff.write(downloaded.content)
+class Downloader:
+
+    url='https://disk.yandex.ru/d/x9IYS-jGXcpyqw'
+    api_url = "https://cloud-api.yandex.net/v1/disk/public/resources?"
+    request_url = api_url + urlencode(dict(public_key=url))
+
+    @staticmethod
+    def __init__() -> None:
+        if os.path.exists('Downloaded')==False:
+            os.mkdir('Downloaded')
+
+        response=requests.get(Downloader.request_url).json()['_embedded']['items']
+        for file in response:
+            if file['name']=='Список общий.xlsx':
+                downloaded=requests.get(response[response.index(file)]['file']).content
+
+        open('Downloaded/students_info.xlsx', 'wb').write(downloaded)
+
+Downloader()
