@@ -1,1 +1,2 @@
-import AppData.downloader
+import src.downloader
+import src.pars

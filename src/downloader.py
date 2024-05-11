@@ -17,6 +17,7 @@ class Downloader:
         for file in response:
             if file['name']=='Список общий.xlsx':
                 downloaded=requests.get(response[response.index(file)]['file']).content
+                break
 
         open('Downloaded/students_info.xlsx', 'wb').write(downloaded)
 
