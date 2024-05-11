@@ -21,4 +21,6 @@ class Downloader:
 
         open('Downloaded/students_info.xlsx', 'wb').write(downloaded)
 
-Downloader()
+    def delete_downloaded():
+        os.remove('Downloaded/students_info.xlsx')
+        os.rmdir('Downloaded')

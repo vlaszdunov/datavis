@@ -1,19 +1,25 @@
 import pandas as pd
 
-all_data=pd.DataFrame(pd.read_excel('Downloaded\students_info.xlsx'))
+class Parse:
+    all_data=pd.DataFrame(pd.read_excel('Downloaded\students_info.xlsx'))
+    study_group_1=pd.DataFrame()
+    study_group_2=pd.DataFrame()
+    @staticmethod
+    def __init__() -> None:
+        Parse.all_data.rename(columns={'Unnamed: 0':"index"},inplace=True)
+        Parse.all_data.rename(columns={'Unnamed: 1':"name"},inplace=True)
 
-all_data.rename(columns={'Unnamed: 0':"index"},inplace=True)
-all_data.rename(columns={'Unnamed: 1':"name"},inplace=True)
+        Parse.study_group_1=Parse.all_data.loc[1:22,'name':'итоги']
+        Parse.study_group_2=Parse.all_data.loc[24:45,'name':'итоги']
+        Parse.study_group_2=Parse.study_group_2.drop(44,axis=0)
 
-study_group_1=all_data.loc[1:22,'name':'итоги']
-study_group_2=all_data.loc[23:45,'name':'итоги']
+        Parse.study_group_1.columns=['name']+[i for i in range(1,17)]
+        Parse.study_group_2.columns=['name']+[i for i in range(1,17)]
 
-study_group_1.columns=['name']+[i for i in range(1,17)]
-study_group_2.columns=['name']+[i for i in range(1,17)]
-a=study_group_1.isin(['отмена пары','отмена','выходной',''])
+        Parse.study_group_1.fillna(0,inplace=True)
+        Parse.study_group_1.replace(['отмена пары','отмена','выходной','отм'],0,inplace=True)
+        Parse.study_group_2.fillna(0,inplace=True)
+        Parse.study_group_2.replace(['отмена пары','отмена','выходной','отм'],0,inplace=True)
 
-a.to_csv('a.csv')
-
-
-study_group_1.to_csv('group_1.csv')
-study_group_2.to_csv('group_2.csv')
+        Parse.study_group_1=Parse.study_group_1.set_index("name")
+        Parse.study_group_2=Parse.study_group_2.set_index("name")
