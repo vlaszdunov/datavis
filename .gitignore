@@ -1,8 +1,11 @@
 #byte-compiled
-__pycache__/
+__pycache__
 
 #environment
 .venv
 
-#test-staff
-Downloaded/
+#ide-staff
+.vscode
+
+#appdata-staff
+exported
