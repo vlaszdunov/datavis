@@ -4,16 +4,15 @@ import os
 
 class Downloader:
 
-    cloud_url='https://disk.yandex.ru/d/x9IYS-jGXcpyqw'
     api_url = "https://cloud-api.yandex.net/v1/disk/public/resources?"
-    request_url = api_url + urlencode(dict(public_key=cloud_url))
 
     @staticmethod
-    def __init__():
+    def __init__(CLOUD_URL):
         if os.path.exists('Downloaded')==False:
             os.mkdir('Downloaded')
 
-        response=requests.get(Downloader.request_url).json()['_embedded']['items']
+        request_url = Downloader.api_url + urlencode(dict(public_key=CLOUD_URL))
+        response=requests.get(request_url).json()['_embedded']['items']
         for file in response:
             if file['name']=='Список общий.xlsx':
                 downloaded=requests.get(response[response.index(file)]['file']).content

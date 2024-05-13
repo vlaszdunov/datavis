@@ -4,9 +4,8 @@ import os
 
 class Heatmap:
 
-    
     @staticmethod
-    def __init__(dataset):
+    def __init__(dataset) -> None:
         plt.figure(figsize=(8,6))
         plt.subplots_adjust(left=0.5)
         seaborn.heatmap(dataset,annot=True,cbar=False)
