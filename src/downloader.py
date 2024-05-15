@@ -1,25 +1,40 @@
-import requests
-from urllib.parse import urlencode
 import os
+from urllib.parse import urlencode
 
-class Downloader:
+import requests
 
-    api_url = "https://cloud-api.yandex.net/v1/disk/public/resources?"
+API_URL = 'https://cloud-api.yandex.net/v1/disk/public/resources?'
+DOWNLOAD_DIR_NAME = 'downloaded'
+DOWNLOADED_FILE_NAME = 'students_info.xlsx'
 
-    @staticmethod
-    def __init__(CLOUD_URL):
-        if os.path.exists('Downloaded')==False:
-            os.mkdir('Downloaded')
 
-        request_url = Downloader.api_url + urlencode(dict(public_key=CLOUD_URL))
-        response=requests.get(request_url).json()['_embedded']['items']
-        for file in response:
-            if file['name']=='Список общий.xlsx':
-                downloaded=requests.get(response[response.index(file)]['file']).content
-                break
+def download_file(CLOUD_URL: str, CLOUD_FILENAME: str) -> None:
+    if os.path.exists(DOWNLOAD_DIR_NAME) == False:
+        os.mkdir(DOWNLOAD_DIR_NAME)
 
-        open('Downloaded/students_info.xlsx', 'wb').write(downloaded)
+    download_link = get_download_link(CLOUD_URL, CLOUD_FILENAME)
+    if download_link is None:
+        print(f'Файл {CLOUD_FILENAME} отсутствует в облаке')
+        exit()
 
-    def delete_downloaded():
-        os.remove('Downloaded/students_info.xlsx')
-        os.rmdir('Downloaded')
+    try:
+        file_content = requests.get(download_link).content
+    except requests.exceptions.MissingSchema:
+        print('ошибка')
+        exit()
+    else:
+        open(f'{DOWNLOAD_DIR_NAME}/{DOWNLOADED_FILE_NAME}',
+             'wb').write(file_content)
+
+
+def get_download_link(CLOUD_URL, CLOUD_FILENAME) -> str:
+    param = urlencode({'public_key': CLOUD_URL,
+                      'path': f'/{CLOUD_FILENAME}',
+                      'fields': 'file'})
+    response: dict[str, str] = requests.get(API_URL, params=param).json()
+    return response['file']
+
+
+def delete_downloaded():
+    os.remove(f'{DOWNLOAD_DIR_NAME}/{DOWNLOADED_FILE_NAME}')
+    os.rmdir(f'{DOWNLOAD_DIR_NAME}')
