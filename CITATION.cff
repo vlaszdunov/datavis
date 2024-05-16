@@ -3,5 +3,5 @@ message: "If you use this software, please cite it as below."
 authors:
   - given-names: vlaszdunov
 title: "datavis"
-date-released: 2022-05-10
+date-released: 2024-05-10
 url: "https://github.com/vlaszdunov/datavis"

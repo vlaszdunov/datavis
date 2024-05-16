@@ -1,12 +1,10 @@
-from src.downloader import delete_downloaded, download_file
-from src.heatmap import heatmap
-from src.pars import Parse
+import src.downloader as downloader
+from src.parse import Parser
+from src.visualiser import Visualiser
 from src.settings import Settings
-import time
-import os
 
 config = Settings()
-download_file(config.cloud_url, config.cloud_filename)
-Parse()
-delete_downloaded()
-heatmap(Parse.study_group_1)
+visual=Visualiser()
+file = downloader.get_file(
+    config.cloud_url, config.cloud_filename)
+visual.heatmap(Parser(file).study_group_1)
