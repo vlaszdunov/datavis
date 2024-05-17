@@ -9,5 +9,5 @@ class Settings:
 
     def __init__(self) -> None:
         dotenv.load_dotenv()
-        self.cloud_url = os.getenv('CLOUD_URL')
-        self.cloud_filename = os.getenv('CLOUD_FILENAME')
+        self.cloud_url = os.getenv('CLOUD_URL')  # type: ignore
+        self.cloud_filename = os.getenv('CLOUD_FILENAME')  # type: ignore
