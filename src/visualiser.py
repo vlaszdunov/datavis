@@ -14,5 +14,6 @@ def create_heatmap(dataset:list[pd.DataFrame]):
     if os.path.exists('exported') == False:
         os.mkdir('exported')
     for group in range(len(dataset)):
+        plt.cla()
         seaborn.heatmap(dataset[group], annot=True, cbar=False)
         plt.savefig('exported/'+f'group {group+1}.png')
