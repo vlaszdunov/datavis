@@ -29,6 +29,13 @@ def create_list_of_groups(file_content: bytes) -> list[pd.DataFrame]:
     mask_of_empty_cells = all_data.index.get_loc(0)
     zero_indexes: list[int] = list(np.where(mask_of_empty_cells == True)[0])
 
-    list_of_groups: list[pd.DataFrame] = [all_data[zero_indexes[i]+1:zero_indexes[i+1]].astype(float).sum().to_frame()
-                                          for i in range(len(zero_indexes)-1)]
+    list_of_groups: list[pd.DataFrame] = [all_data[zero_indexes[i]+1:zero_indexes[i+1]]
+                                          .astype(float).sum().to_frame()
+                                          .set_axis(['Кол-во студентов'], axis='columns')
+                                          .rename_axis('Номер пары')
+                                          for i in range(len(zero_indexes)-2)]
+    list_of_groups.append(pd.concat(list_of_groups, axis=1)
+                          .transpose().set_axis([f'Группа {i}' for i in range(1, len(list_of_groups)+1)],
+                                                axis='index'))
     return list_of_groups
+    # <----------------------------------------->
