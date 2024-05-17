@@ -1,5 +1,6 @@
 import pandas as pd
 from io import BytesIO
+import numpy as np
 
 
 class Parser:
@@ -19,7 +20,11 @@ class Parser:
 
         all_data.replace(
             ['отмена пары', 'отмена', 'выходной', 'отм', 'пр', 'б'], 0, inplace=True)
-
+        
+        
+        a=all_data.index.get_loc(0) # type: ignore
+        # print(np.where(a==True))
+        
         self.study_group_1 = all_data.iloc[24:44]
         self.study_group_1 = self.study_group_1.astype(float)
 

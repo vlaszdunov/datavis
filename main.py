@@ -1,10 +1,10 @@
 import src.downloader as downloader
 from src.parse import Parser
-from src.visualiser import Visualiser
+from src.visualiser import create_heatmap
 from src.settings import Settings
 
 config = Settings()
-visual=Visualiser()
 file = downloader.get_file(
     config.cloud_url, config.cloud_filename)
-visual.heatmap(Parser(file).study_group_1)
+parsed_data=Parser(file)
+create_heatmap(parsed_data.study_group_1)
