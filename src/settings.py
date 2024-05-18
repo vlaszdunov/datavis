@@ -3,7 +3,14 @@ import dotenv
 
 
 class Settings:
-
+    '''
+    Configure program with data from `.env` file
+    
+    Attributes:
+        cloud_url (str): Link to a public folder in the cloud
+        cloud_filename (str): name of the file to be downloaded from the cloud
+    '''
+    
     cloud_url: str
     cloud_filename: str
 
