@@ -1,6 +1,8 @@
-import pandas as pd
 from io import BytesIO
+from typing import Any
+
 import numpy as np
+import pandas as pd
 
 
 # <---------Creating list of groups--------->
@@ -46,7 +48,7 @@ def format_groups_data(file_content: bytes) -> pd.DataFrame:
     return all_data
 
 
-def create_list_of_groups(file_content: bytes) -> list[pd.DataFrame]:
+def create_list_of_groups(file_content: bytes) -> dict[str, dict[str, Any]]:
     '''
     Split pd.Dataframe to several DataFrames
     for each study groups and combine them to list
@@ -55,24 +57,24 @@ def create_list_of_groups(file_content: bytes) -> list[pd.DataFrame]:
         file_content (bytes): byte content of the file
 
     Return:
-        list_of_groups (list): List of pd.DataFrames with study group's data
+        dict_of_groups (dict): containf dicts of pd.DataFrames
+        of study group's and number of students in them
     '''
 
     all_data = format_groups_data(file_content)
     mask_of_empty_cells = all_data.index.get_loc(0)
-    zero_indexes: list[int] = list(np.where(mask_of_empty_cells == True)[0])
+    zero_indexes: list[int] = list(
+        np.where(mask_of_empty_cells == True)[0])[:-1]
     '''List of study group's divider's indexes'''
 
-    list_of_groups: list[pd.DataFrame] = [all_data[zero_indexes[i]+1:zero_indexes[i+1]]
-                                          .astype(float).sum().to_frame()
-                                          .set_axis(['Кол-во студентов'], axis='columns')
-                                          .rename_axis('Номер пары').transpose()
-                                          for i in range(len(zero_indexes)-2)]
-    '''Create list of study groups'''
+    dict_of_groups: dict[str, dict[str, Any]] = {}
+    for i in range(len(zero_indexes)-1):
+        dict_of_groups[f'Группа {i+1}'] = {
+            'group_list': all_data[zero_indexes[i]+1:zero_indexes[i+1]].astype(float)}
+        dict_of_groups[f'Группа {i+1}']\
+            .update({'count': zero_indexes[i+1] - zero_indexes[i]-1})
 
-    list_of_groups.append(pd.concat(list_of_groups, axis=0)
-                          .set_axis([f'Группа {i}' for i in range(1, len(list_of_groups)+1)],
-                                    axis='index'))
-    '''Appending pd.Dataframe with all study groups to group's list'''
-    return list_of_groups
+    '''Create dict of study groups with the number of students in them'''
+
+    return dict_of_groups
 # <----------------------------------------->
