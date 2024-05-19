@@ -60,19 +60,23 @@ def create_list_of_groups(file_content: bytes) -> list[pd.DataFrame]:
 
     all_data = format_groups_data(file_content)
     mask_of_empty_cells = all_data.index.get_loc(0)
-    zero_indexes: list[int] = list(np.where(mask_of_empty_cells == True)[0])
+    zero_indexes: list[int] = list(np.where(mask_of_empty_cells == True)[0])[:-1]
     '''List of study group's divider's indexes'''
 
-    list_of_groups: list[pd.DataFrame] = [all_data[zero_indexes[i]+1:zero_indexes[i+1]]
-                                          .astype(float).sum().to_frame()
-                                          .set_axis(['Кол-во студентов'], axis='columns')
-                                          .rename_axis('Номер пары').transpose()
-                                          for i in range(len(zero_indexes)-2)]
+    dict_of_groups: dict[str,pd.DataFrame]={}
+    all_data.insert(len(all_data.columns),'count',1)
+    print(all_data)
+    # for i in range(len(zero_indexes)-1):
+    #     dict_of_groups[f'Группа {zero_indexes[i]+1}'] = all_data[zero_indexes[i]+1:zero_indexes[i+1]].astype(float).assign(count=[1 for i in range(all_data.count())])
+    # list_of_groups: list[pd.DataFrame] = [all_data[zero_indexes[i]+1:zero_indexes[i+1]]
+    #                                       .astype(float) for i in range(len(zero_indexes)-2)]
+    # print(dict_of_groups)
+    exit()
     '''Create list of study groups'''
 
-    list_of_groups.append(pd.concat(list_of_groups, axis=0)
-                          .set_axis([f'Группа {i}' for i in range(1, len(list_of_groups)+1)],
-                                    axis='index'))
-    '''Appending pd.Dataframe with all study groups to group's list'''
+    # list_of_groups.append(pd.concat(list_of_groups, axis=0)
+    #                       .set_axis([f'Группа {i}' for i in range(1, len(list_of_groups)+1)],
+    #                                 axis='index'))
+    # '''Appending pd.Dataframe with all study groups to group's list'''
     return list_of_groups
 # <----------------------------------------->

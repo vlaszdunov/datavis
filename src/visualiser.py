@@ -23,6 +23,7 @@ def create_heatmap(dataset: list[pd.DataFrame]):
             Generating heatmap for dataset[group] without last column,
             that contains 1'st ex score
             '''
+            
             plt.title('Посещаемость всех групп')
             plt.savefig('exported/'+'all_groups.png')
         else:
