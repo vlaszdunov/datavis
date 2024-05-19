@@ -57,7 +57,8 @@ def create_list_of_groups(file_content: bytes) -> dict[str, dict[str, Any]]:
         file_content (bytes): byte content of the file
 
     Return:
-        list_of_groups (list): List of pd.DataFrames with study group's data
+        dict_of_groups (dict): containf dicts of pd.DataFrames
+        of study group's and number of students in them
     '''
 
     all_data = format_groups_data(file_content)
@@ -73,7 +74,7 @@ def create_list_of_groups(file_content: bytes) -> dict[str, dict[str, Any]]:
         dict_of_groups[f'Группа {i+1}']\
             .update({'count': zero_indexes[i+1] - zero_indexes[i]-1})
 
-    '''Create list of study groups'''
+    '''Create dict of study groups with the number of students in them'''
 
     return dict_of_groups
 # <----------------------------------------->
