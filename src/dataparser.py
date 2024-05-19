@@ -30,7 +30,7 @@ def format_groups_data(file_content: bytes) -> pd.DataFrame:
 
     all_data = load_groups_data(file_content)
     all_data = all_data.loc[:, 'Unnamed: 1':'Оценки за задания']
-    all_data.columns = ['name'] + [i for i in range(1, 17)]+['бл 1']
+    all_data.columns = ['name'] + [i for i in range(1,len(all_data.columns)-1)]+['бл 1']
     '''
     Removing unnecessary columns from a dataframe.
     Columns remain with full name, all pairs and grade for the first task
@@ -42,9 +42,10 @@ def format_groups_data(file_content: bytes) -> pd.DataFrame:
     all_data.replace(
         ['отмена пары', 'отмена', 'выходной', 'отм', 'пр', 'б'], 0, inplace=True)
     '''
-    Аilling empty and str cells with zeros.
+    Filling empty and str cells with zeros.
     Assigning a column with full name as row indexes
     '''
+    all_data.to_excel('a.xlsx')
     return all_data
 
 
@@ -57,7 +58,7 @@ def create_list_of_groups(file_content: bytes) -> dict[str, dict[str, Any]]:
         file_content (bytes): byte content of the file
 
     Return:
-        dict_of_groups (dict): containf dicts of pd.DataFrames
+        dict_of_groups (dict): contains dicts of pd.DataFrames
         of study group's and number of students in them
     '''
 
@@ -69,11 +70,9 @@ def create_list_of_groups(file_content: bytes) -> dict[str, dict[str, Any]]:
 
     dict_of_groups: dict[str, dict[str, Any]] = {}
     for i in range(len(zero_indexes)-1):
-        dict_of_groups[f'Группа {i+1}'] = {
-            'group_list': all_data[zero_indexes[i]+1:zero_indexes[i+1]].astype(float)}
-        dict_of_groups[f'Группа {i+1}']\
-            .update({'count': zero_indexes[i+1] - zero_indexes[i]-1})
-
+        dict_of_groups[f'Группа {i+1}']={'count': zero_indexes[i+1] - zero_indexes[i]-1}
+        dict_of_groups[f'Группа {i+1}'].update({
+            'group_list': all_data[zero_indexes[i]+1:zero_indexes[i+1]].astype(float)})
     '''Create dict of study groups with the number of students in them'''
 
     return dict_of_groups
