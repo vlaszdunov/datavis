@@ -45,7 +45,6 @@ def format_groups_data(file_content: bytes) -> pd.DataFrame:
     Filling empty and str cells with zeros.
     Assigning a column with full name as row indexes
     '''
-    all_data.to_excel('a.xlsx')
     return all_data
 
 
@@ -66,7 +65,7 @@ def create_list_of_groups(file_content: bytes) -> dict[str, dict[str, Any]]:
     mask_of_empty_cells = all_data.index.get_loc(0)
     zero_indexes: list[int] = list(
         np.where(mask_of_empty_cells == True)[0])[:-1]
-    '''List of study group's divider's indexes'''
+    '''Create list of study group's divider's indexes'''
 
     dict_of_groups: dict[str, dict[str, Any]] = {}
     for i in range(len(zero_indexes)-1):

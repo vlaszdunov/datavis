@@ -1,15 +1,14 @@
 name: CI
-
+run-name: Test code after ${{github.event_name}}by @${{github.actor}}
 on:
-    push:
-    pull_request:
+    [push, pull_request, release]
 
 jobs:
     run-tests:
         strategy:
             fail-fast: false
             matrix:
-                os: [windows-latest]
+                os: [windows-latest, macos-latest, ubuntu-latest]
                 python-version:
                     - "3.12"
 
