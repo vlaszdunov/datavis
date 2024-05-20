@@ -19,12 +19,10 @@ def create_heatmap(dataset: dict[str, dict[str, Any]]):
         os.mkdir('exported')
 
     for group in dataset.keys():
-        formatted_group_list = dataset[group]['group_list'].iloc[:, :-1].sum()\
+        formatted_group_list:pd.DataFrame = dataset[group]['group_list'].iloc[:, :-1].sum()\
             .to_frame().set_axis(['Кол-во студентов'], axis='columns')\
             .rename_axis('Номер пары').transpose()
-        
-        
-        
+
         plt.title(f'Посещаемость {group}')
         seaborn.heatmap(formatted_group_list, annot=True,
                         cbar=False, linewidths=0.5)
@@ -45,3 +43,4 @@ def create_heatmap(dataset: dict[str, dict[str, Any]]):
         for study group without last column,
         that contains 1'st ex score
         '''
+seaborn.pairplot
