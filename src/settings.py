@@ -1,9 +1,9 @@
 import os
+
 import dotenv
 
 
-
-def load_config() -> dict[str,str | None]:
+def load_config() -> dict[str, str | None]:
     '''
     Configure program with data from `.env` file
 

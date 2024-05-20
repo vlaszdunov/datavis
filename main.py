@@ -1,7 +1,7 @@
 import src.downloader as downloader
 from src.dataparser import *
-from src.visualiser import create_heatmap
 from src.settings import load_config
+from src.visualiser import create_heatmap
 
 config = load_config()
 file = downloader.get_file(

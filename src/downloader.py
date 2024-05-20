@@ -1,5 +1,6 @@
-import requests
 import os
+
+import requests
 
 API_URL = 'https://cloud-api.yandex.net/v1/disk/public/resources?'
 

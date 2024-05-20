@@ -3,7 +3,6 @@ __pycache__
 
 #environment
 .venv
-*.cfg
 .env
 
 #ide-staff
