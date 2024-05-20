@@ -1,4 +1,0 @@
-[project]
-name='datavis'
-
-dependencies=['requests=2.31.0']
