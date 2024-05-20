@@ -1,0 +1,17 @@
+{
+  "SPDXID": "SPDXRef-DOCUMENT",
+  "spdxVersion": "SPDX-2.3",
+  "creationInfo": {
+    "comment": "This document has been automatically generated.",
+    "creators": [
+      "Tool: sbom4python-0.10.4"
+    ],
+    "created": "2024-05-20T12:49:20Z",
+    "licenseListVersion": "3.22"
+  },
+  "name": "Python-",
+  "dataLicense": "CC0-1.0",
+  "documentNamespace": "http://spdx.org/spdxdocs/Python--41d919cd-adda-4d8a-a1ed-31d99d64c1d8",
+  "packages": [],
+  "relationships": []
+}
