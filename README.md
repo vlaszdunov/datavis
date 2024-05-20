@@ -10,8 +10,8 @@ Study project for data visualisation
    pip install -r requirements/requirements.txt
    ```
    For development install additional dependencies
-   from `dev_requirements.txt` using
+   from `requirements-dev.txt` using
    ```
-   pip install -r requirements/dev_requirements.txt
+   pip install -r requirements/requirements-dev.txt
    ```
 4. Run `main.py`
