@@ -69,10 +69,10 @@ def create_list_of_groups(file_content: bytes) -> dict[str, dict[str, int | pd.D
 
     dict_of_groups: dict[str, dict[str, int | pd.DataFrame]] = {}
     for i in range(len(zero_indexes)-1):
-        dict_of_groups[f'Группа {
-            i+1}'] = {'count': zero_indexes[i+1] - zero_indexes[i]-1}
-        dict_of_groups[f'Группа {i+1}'].update({
-            'group_list': all_data[zero_indexes[i]+1:zero_indexes[i+1]].astype(float)})
+        dict_of_groups[f'Группа {i+1}'] = \
+            {'count': zero_indexes[i+1] - zero_indexes[i]-1}
+        dict_of_groups[f'Группа {i+1}']\
+            .update({'group_list': all_data[zero_indexes[i] + 1:zero_indexes[i+1]].astype(float)})
     '''Create dict of study groups with the number of students in them'''
 
     return dict_of_groups
