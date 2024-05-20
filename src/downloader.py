@@ -4,40 +4,40 @@ import os
 API_URL = 'https://cloud-api.yandex.net/v1/disk/public/resources?'
 
 
-def get_file(cloud_url: str, cloud_filename: str) -> bytes:
+def get_file(CLOUD_URL: str | None, CLOUD_FILENAME: str | None) -> bytes:
     '''
     Load data from requested file
 
     Args:
-        cloud_url (str): Link to a public folder in the cloud
-        cloud_filename (str): name of the file to be downloaded from the cloud
+        CLOUD_URL (str): Link to a public folder in the cloud
+        CLOUD_FILENAME (str): name of the file to be downloaded from the cloud
 
     Returns:
         bytes: byte content of the file
     '''
 
-    download_link = get_download_link(cloud_url, cloud_filename)
+    download_link = get_download_link(CLOUD_URL, CLOUD_FILENAME)
 
     file_content = requests.get(download_link).content
     return file_content
 
 
-def get_download_link(cloud_url: str, cloud_filename: str) -> str:
+def get_download_link(CLOUD_URL: str | None, CLOUD_FILENAME: str | None) -> str:
     '''
     Sends a request to Yandex.Disk and returns a link
     to download the file from the cloud
 
     Args:
-        cloud_url (str): Link to a public folder in the cloud
-        cloud_filename (str): name of the file to be downloaded from the cloud
+        CLOUD_URL (str): Link to a public folder in the cloud
+        CLOUD_FILENAME (str): name of the file to be downloaded from the cloud
 
     Returns:
         str: download link for specified file
     '''
 
-    params: dict['str', 'str'] = {'public_key': cloud_url,
-                                  'path': f'/{cloud_filename}',
-                                  'fields': 'file'}
+    params: dict[str, str | None] = {'public_key': CLOUD_URL,
+                                     'path': f'/{CLOUD_FILENAME}',
+                                     'fields': 'file'}
     """Additional params for HTTPS request"""
 
     response: dict[str, str] = requests.get(API_URL, params).json()
@@ -50,5 +50,5 @@ def get_download_link(cloud_url: str, cloud_filename: str) -> str:
             Проверьте правильность URL папки и названия файла в .env')
         exit()
     finally:
-        del os.environ['cloud_url']
-        del os.environ['cloud_filename']
+        del os.environ['CLOUD_URL']
+        del os.environ['CLOUD_FILENAME']

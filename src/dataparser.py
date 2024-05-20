@@ -1,5 +1,4 @@
 from io import BytesIO
-from typing import Any
 
 import numpy as np
 import pandas as pd
@@ -30,7 +29,8 @@ def format_groups_data(file_content: bytes) -> pd.DataFrame:
 
     all_data = load_groups_data(file_content)
     all_data = all_data.loc[:, 'Unnamed: 1':'Оценки за задания']
-    all_data.columns = ['name'] + [i for i in range(1,len(all_data.columns)-1)]+['бл 1']
+    all_data.columns = ['name'] + \
+        [i for i in range(1, len(all_data.columns)-1)]+['бл 1']
     '''
     Removing unnecessary columns from a dataframe.
     Columns remain with full name, all pairs and grade for the first task
@@ -48,7 +48,7 @@ def format_groups_data(file_content: bytes) -> pd.DataFrame:
     return all_data
 
 
-def create_list_of_groups(file_content: bytes) -> dict[str, dict[str, Any]]:
+def create_list_of_groups(file_content: bytes) -> dict[str, dict[str, int | pd.DataFrame]]:
     '''
     Split pd.Dataframe to several DataFrames
     for each study groups and combine them to list
@@ -67,9 +67,10 @@ def create_list_of_groups(file_content: bytes) -> dict[str, dict[str, Any]]:
         np.where(mask_of_empty_cells == True)[0])[:-1]
     '''Create list of study group's divider's indexes'''
 
-    dict_of_groups: dict[str, dict[str, Any]] = {}
+    dict_of_groups: dict[str, dict[str, int | pd.DataFrame]] = {}
     for i in range(len(zero_indexes)-1):
-        dict_of_groups[f'Группа {i+1}']={'count': zero_indexes[i+1] - zero_indexes[i]-1}
+        dict_of_groups[f'Группа {
+            i+1}'] = {'count': zero_indexes[i+1] - zero_indexes[i]-1}
         dict_of_groups[f'Группа {i+1}'].update({
             'group_list': all_data[zero_indexes[i]+1:zero_indexes[i+1]].astype(float)})
     '''Create dict of study groups with the number of students in them'''

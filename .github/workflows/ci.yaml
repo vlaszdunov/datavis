@@ -1,6 +1,6 @@
 name: CI
 run-name: Test code after ${{github.event_name}} by @${{github.actor}}
-on: [push, pull_request, release]
+on: [push, pull_request]
 
 jobs:
   run-tests:

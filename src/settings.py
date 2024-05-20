@@ -2,19 +2,18 @@ import os
 import dotenv
 
 
-class Settings:
+
+def load_config() -> dict[str,str | None]:
     '''
     Configure program with data from `.env` file
-    
-    Attributes:
-        cloud_url (str): Link to a public folder in the cloud
-        cloud_filename (str): name of the file to be downloaded from the cloud
-    '''
-        
-    cloud_url: str
-    cloud_filename: str
 
-    def __init__(self) -> None:
-        dotenv.load_dotenv()
-        self.cloud_url = os.getenv('CLOUD_URL')  # type: ignore
-        self.cloud_filename = os.getenv('CLOUD_FILENAME')  # type: ignore
+    Return:
+        config (dict[str,str]). Dict with cloud_url
+        and cloud_filename environmnet variables
+        Keys: CLOUD_URL: url to cloud folder
+              CLOUD_FILENAME: name of the file on the cloud
+    '''
+    dotenv.load_dotenv()
+    config = {'CLOUD_URL': os.getenv('CLOUD_URL'),
+              'CLOUD_FILENAME': os.getenv('CLOUD_FILENAME')}
+    return config
