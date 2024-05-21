@@ -1,4 +1,5 @@
 ﻿# datavis
+ ![CI](https://github.com/vlaszdunov/datavis/actions/workflows/ci.yaml/badge.svg?branch=main)
 
 Study project for data visualisation
 
