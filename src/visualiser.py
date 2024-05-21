@@ -43,4 +43,3 @@ def create_heatmap(dataset: dict[str, dict[str, Any]]):
         for study group without last column,
         that contains 1'st ex score
         '''
-seaborn.pairplot
